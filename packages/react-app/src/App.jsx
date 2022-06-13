@@ -60,7 +60,7 @@ const { ethers } = require("ethers");
 */
 
 /// 📡 What chain are your contracts deployed to?
-const targetNetwork = NETWORKS.localhost; // <------- select your target frontend network (localhost, rinkeby, xdai, mainnet)
+const targetNetwork = NETWORKS.rinkeby; // <------- select your target frontend network (localhost, rinkeby, xdai, mainnet)
 
 // 😬 Sorry for all the console logging
 const DEBUG = true;
@@ -474,30 +474,25 @@ function App(props) {
     });
   };
 
-  /*
   const riggedRoll = async () => {
-    tx(
-      writeContracts.RiggedRoll.riggedRoll({ gasLimit: 500000 }),
-      update => {
-        console.log("TX UPDATE",update)
-        if (update?.status === "sent" || update?.status === 1) {
-          setDiceRolled(true);
-          setDiceRollImage("ROLL");
-        }
+    tx(writeContracts.RiggedRoll.riggedRoll({ gasLimit: 500000 }), update => {
+      console.log("TX UPDATE", update);
+      if (update?.status === "sent" || update?.status === 1) {
+        setDiceRolled(true);
+        setDiceRollImage("ROLL");
+      }
 
-        if (update?.status === "failed") {
+      if (update?.status === "failed") {
+        setDiceRolled(false);
+        //setDiceRollImage(null);
+      }
+      if (update?.status == 1 || update?.status == "confirmed") {
+        setTimeout(() => {
           setDiceRolled(false);
           //setDiceRollImage(null);
-        }
-        if(update?.status==1 || update?.status=="confirmed")
-        {
-          setTimeout(()=>{
-            setDiceRolled(false);
-            //setDiceRollImage(null);
-          },1500)
-        }
-      },
-    );
+        }, 1500);
+      }
+    });
   };
 
   const riggedFilter = readContracts.DiceGame?.filters.Roll(riggedRoll.address, null);
@@ -509,7 +504,6 @@ function App(props) {
       setDiceRolled(false);
     }
   });
-*/
 
   const filter = readContracts.DiceGame?.filters.Roll(address, null);
 
@@ -579,7 +573,7 @@ function App(props) {
                   <Button type="primary" disabled={diceRolled} onClick={rollTheDice}>
                     Roll the dice!
                   </Button>
-                  {/*
+
                   <div style={{ padding: 16 }}>
                     <Account
                       address={readContracts?.RiggedRoll?.address}
@@ -596,7 +590,6 @@ function App(props) {
                       Rigged Roll!
                     </Button>
                   </div>
-                */}
                 </div>
                 {diceRollImg}
               </div>
